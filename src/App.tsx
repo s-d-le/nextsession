@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+import { ISession } from "./OpenWeatherModel";
 import Sessions from "./Sessions";
 
 const LAT = 52.11;
@@ -12,7 +13,7 @@ const App = () => {
   const [long, setLong] = useState<number>();
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number>(0);
-  const [nextSession, setNextSession] = useState<{}[]>([]);
+  const [nextSession, setNextSession] = useState<ISession[]>([]);
   const fetchURL = `${process.env.REACT_APP_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`;
 
   const filterWindSpeed = (list: any[]) => {
