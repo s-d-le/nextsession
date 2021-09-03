@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+import Sessions from "./Sessions";
+
 const LAT = 52.11;
 const LONG = 4.265;
 const KNOT_TO_MS = 1.94384; //Api returns in m/s but we want to work with knots
@@ -10,11 +12,13 @@ const App = () => {
   const [long, setLong] = useState<number>();
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number>(0);
-  const [weather, setWeather] = useState<{}>();
+  const [nextSession, setNextSession] = useState<{}[]>([]);
   const fetchURL = `${process.env.REACT_APP_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`;
 
   const filterWindSpeed = (list: any[]) => {
-    return list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS);
+    setNextSession(
+      list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS)
+    );
   };
 
   const getWeather = async () => {
@@ -22,7 +26,7 @@ const App = () => {
       const res = await fetch(fetchURL);
       const data = await res.json();
       setLocation(`${data.city.name}, ${data.city.country}`);
-      console.log(filterWindSpeed(data.list));
+      filterWindSpeed(data.list);
     } catch (err) {
       console.log("Error: ", err);
     }
@@ -63,6 +67,7 @@ const App = () => {
       >
         When is my next session?
       </button>
+      <Sessions list={nextSession} />
     </div>
   );
 };
