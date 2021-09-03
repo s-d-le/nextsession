@@ -1,3 +1,7 @@
+/**
+ * Types for values return from Open Weather API
+ * Adding things as we go
+ */
 export interface IWeather {
   description: string;
 }

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import { ISession } from "./OpenWeatherModel";
-import Sessions from "./Sessions";
+import { KNOT_TO_MS } from "./helpers/Conversion";
+import Sessions from "./components/Sessions";
 
 const LAT = 52.11;
 const LONG = 4.265;
-const KNOT_TO_MS = 1.94384; //Api returns in m/s but we want to work with knots
 
 const App = () => {
   const [lat, setLat] = useState<number>();
   const [long, setLong] = useState<number>();
   const [location, setLocation] = useState<string>("");
-  const [minWindSpeed, setMinWindSpeed] = useState<number>(0);
+  const [minWindSpeed, setMinWindSpeed] = useState<number>(12);
   const [nextSession, setNextSession] = useState<ISession[]>([]);
   const fetchURL = `${process.env.REACT_APP_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`;
 
