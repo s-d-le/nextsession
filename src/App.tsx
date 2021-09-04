@@ -12,14 +12,19 @@ const App = () => {
   const [lat, setLat] = useState<number>();
   const [long, setLong] = useState<number>();
   const [location, setLocation] = useState<string>("");
-  const [minWindSpeed, setMinWindSpeed] = useState<number>(12);
+  const [minWindSpeed, setMinWindSpeed] = useState<number | string>(12);
   const [nextSession, setNextSession] = useState<ISession[]>([]);
   const fetchURL = `${process.env.REACT_APP_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`;
 
   const filterWindSpeed = (list: any[]) => {
-    setNextSession(
-      list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS)
-    );
+    /**
+     * HTML input returns empty string
+     */
+    if (typeof minWindSpeed !== "string") {
+      setNextSession(
+        list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS)
+      );
+    }
   };
 
   const getWeather = async () => {
@@ -42,7 +47,7 @@ const App = () => {
   const onInputWindSpeed = (e: React.ChangeEvent<HTMLInputElement>) => {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
-      setMinWindSpeed(e.target.valueAsNumber);
+      setMinWindSpeed(e.target.valueAsNumber ? e.target.valueAsNumber : "");
     }
   };
 
