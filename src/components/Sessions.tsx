@@ -11,9 +11,9 @@ const Sessions: FC<ISessionsList> = ({ list }) => {
   /**
    * Dont want the list to be rerender everytime knots is typed in
    */
-  useMemo(() => list, [list]);
+  const memoizedList = useMemo(() => list, [list]);
 
-  console.log();
+  console.log(memoizedList);
 
   return (
     <div>
