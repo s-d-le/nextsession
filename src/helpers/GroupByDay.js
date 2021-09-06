@@ -1,9 +1,8 @@
 import { unix } from "moment";
 
-export function groupByDay(value, index, array) {
-  let byday = {};
-  let d = unix(value["dt"]).date();
-  byday[d] = byday[d] || [];
-  byday[d].push(value);
-  return byday;
-}
+export const groupByDay = (list) =>
+  list.reduce((entryMap, e) => {
+    let selector = unix(e.dt).format("MM/DD/YYYY");
+
+    return entryMap.set(selector, [...(entryMap.get(selector) || []), e]);
+  }, new Map());

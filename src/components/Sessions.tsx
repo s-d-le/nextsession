@@ -5,23 +5,14 @@ import { KNOT_TO_MS } from "../helpers/Conversion";
 
 import { groupByDay } from "../helpers/GroupByDay";
 
-import moment from "moment";
-
 interface ISessionsList {
   list: Array<ISession>;
 }
 
 const Sessions: FC<ISessionsList> = ({ list }) => {
-  const groupedSessions = list.reduce(
-    (entryMap, e) =>
-      entryMap.set(moment.unix(e.dt).format("MM/DD/YYYY"), [
-        ...(entryMap.get(moment.unix(e.dt).format("MM/DD/YYYY")) || []),
-        e,
-      ]),
-    new Map()
-  );
+  console.log(groupByDay(list));
 
-  console.log(groupedSessions);
+  const groupedSessions = groupByDay(list);
 
   return (
     <div>
