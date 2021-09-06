@@ -1,8 +1,8 @@
 import { unix } from "moment";
 
 export const groupByDay = (list) =>
-  list.reduce((entryMap, e) => {
-    let selector = unix(e.dt).format("MM/DD/YYYY");
+  list.reduce((entryMap, entry) => {
+    let selector = unix(entry.dt).format("dddd MM/DD");
 
-    return entryMap.set(selector, [...(entryMap.get(selector) || []), e]);
+    return entryMap.set(selector, [...(entryMap.get(selector) || []), entry]);
   }, new Map());
