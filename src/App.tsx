@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import { ISession } from "./OpenWeatherModel";
+import { ISession } from "./models/OpenWeatherModel";
 import { KNOT_TO_MS } from "./helpers/Conversion";
 import Sessions from "./components/Sessions";
 
@@ -13,7 +13,7 @@ const App = () => {
   const [long, setLong] = useState<number>();
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number | string>(12);
-  const [nextSession, setNextSession] = useState<ISession[]>([]);
+  const [nextSession, setNextSession] = useState<ISession[]>();
   const fetchURL = `${process.env.REACT_APP_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`;
 
   const filterWindSpeed = (list: any[]) => {
@@ -43,7 +43,9 @@ const App = () => {
     setLong(LONG);
   }, []);
 
-  // Force number input only on windspeed
+  /**
+   * Force number input only on windspeed
+   */
   const onInputWindSpeed = (e: React.ChangeEvent<HTMLInputElement>) => {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
@@ -73,7 +75,7 @@ const App = () => {
       >
         When is my next session?
       </button>
-      <Sessions list={nextSession} />
+      {nextSession! && <Sessions list={nextSession} />}
     </div>
   );
 };

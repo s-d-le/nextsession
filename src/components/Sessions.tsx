@@ -1,30 +1,44 @@
-import React, { FC, useMemo } from "react";
+import React, { FC } from "react";
 
-import { ISession } from "../OpenWeatherModel";
+import { ISession } from "../models/OpenWeatherModel";
 import { KNOT_TO_MS } from "../helpers/Conversion";
 
+import { groupByDay } from "../helpers/GroupByDay";
+
+import moment from "moment";
+
 interface ISessionsList {
-  list: Array<ISession> | null;
+  list: Array<ISession>;
 }
 
 const Sessions: FC<ISessionsList> = ({ list }) => {
-  /**
-   * Dont want the list to be rerender everytime knots is typed in
-   */
-  const memoizedList = useMemo(() => list, [list]);
+  const groupedSessions = list.reduce(
+    (entryMap, e) =>
+      entryMap.set(moment.unix(e.dt).format("MM/DD/YYYY"), [
+        ...(entryMap.get(moment.unix(e.dt).format("MM/DD/YYYY")) || []),
+        e,
+      ]),
+    new Map()
+  );
 
-  console.log(memoizedList);
+  console.log(groupedSessions);
 
   return (
     <div>
-      {list?.map((session) => {
-        return (
-          <p key={session.dt}>
-            {session.dt_txt} {session.weather[0].description}{" "}
-            {Math.round(session.wind.speed * KNOT_TO_MS)} knots
-          </p>
-        );
-      })}
+      {list?.length > 0 ? (
+        list?.map((session) => {
+          return (
+            <p key={session.dt}>
+              {session.dt_txt} {session.weather[0].description}{" "}
+              {Math.round(session.wind.speed * KNOT_TO_MS)} knots
+            </p>
+          );
+        })
+      ) : (
+        <>
+          <p>No kiting!</p>
+        </>
+      )}
     </div>
   );
 };
