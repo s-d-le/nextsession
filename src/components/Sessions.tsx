@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { unix } from "moment";
 
 import { ISession } from "../models/OpenWeatherModel";
 import { KNOT_TO_MS } from "../helpers/Conversion";
@@ -10,21 +11,33 @@ interface ISessionsList {
 }
 
 const Sessions: FC<ISessionsList> = ({ list }) => {
-  console.log(groupByDay(list));
-
   const groupedSessions = groupByDay(list);
-
-  console.log(groupedSessions.size);
 
   return (
     <div>
       {groupedSessions?.size > 0 ? (
-        groupedSessions?.map((session: ISession) => {
+        //Array destructuring
+        [...groupedSessions].map((sessionWeatherData, index: number) => {
+          //They return value is an array with 2 value: [0]formated time and [1]weather data
           return (
-            <p key={session.dt}>
-              {session.dt_txt} {session.weather[0].description}{" "}
-              {Math.round(session.wind.speed * KNOT_TO_MS)} knots
-            </p>
+            <div key={index}>
+              <p>{sessionWeatherData[0]}</p>
+              <ul>
+                {sessionWeatherData[1].map(
+                  (weatherPoint: ISession, index: number) => {
+                    return (
+                      <li key={weatherPoint.dt}>
+                        <span>{unix(weatherPoint.dt).format("hh:mm")}</span>{" "}
+                        <span>
+                          {Math.round(weatherPoint.wind.speed * KNOT_TO_MS)}{" "}
+                          knots
+                        </span>
+                      </li>
+                    );
+                  }
+                )}
+              </ul>
+            </div>
           );
         })
       ) : (
