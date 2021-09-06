@@ -14,10 +14,12 @@ const Sessions: FC<ISessionsList> = ({ list }) => {
 
   const groupedSessions = groupByDay(list);
 
+  console.log(groupedSessions.size);
+
   return (
     <div>
-      {list?.length > 0 ? (
-        list?.map((session) => {
+      {groupedSessions?.size > 0 ? (
+        groupedSessions?.map((session: ISession) => {
           return (
             <p key={session.dt}>
               {session.dt_txt} {session.weather[0].description}{" "}
