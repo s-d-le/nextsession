@@ -4,6 +4,7 @@ import "./App.css";
 import { ISession } from "./models/OpenWeatherModel";
 import { KNOT_TO_MS } from "./helpers/Conversion";
 import Sessions from "./components/Sessions";
+import PlacesAutocomplete from "./components/PlacesAutocomplete";
 
 const LAT = 52.11;
 const LONG = 4.265;
@@ -55,6 +56,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <PlacesAutocomplete></PlacesAutocomplete>
       <h3>Latitude is: {lat}</h3>
       <h3>Longitude is: {long}</h3>
       <h3>Location is: {location}</h3>
