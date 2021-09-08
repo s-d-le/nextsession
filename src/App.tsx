@@ -15,7 +15,7 @@ const App = () => {
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number | string>(12);
   const [nextSession, setNextSession] = useState<ISession[]>();
-  const fetchURL = `${process.env.REACT_APP_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`;
+  const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
   const filterWindSpeed = (list: any[]) => {
     /**
