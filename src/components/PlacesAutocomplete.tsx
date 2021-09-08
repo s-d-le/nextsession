@@ -25,13 +25,13 @@ const PlacesAutocomplete = () => {
     clearSuggestions();
   });
 
-  const handleInput = (e) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Update the keyword of the input element
     setValue(e.target.value);
   };
 
   const handleSelect =
-    ({ description }) =>
+    ({ description }: { description: string }) =>
     () => {
       // When user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
