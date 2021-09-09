@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { useCookies } from "react-cookie";
 
 import usePlacesAutocomplete, {
   getGeocode,
@@ -28,6 +29,17 @@ const PlacesAutocomplete = () => {
    */
   const { setLat, setLong, setLocation } = useContext(LocationContext);
 
+  const [cookies, setCookie] = useCookies(["lat", "long", "location"]);
+
+  /**
+   * Rehydrate the location with some good dough
+   */
+  useEffect(() => {
+    if (cookies["lat"] !== undefined) setLat(cookies["lat"]);
+    if (cookies["long"] !== undefined) setLong(cookies["long"]);
+    if (cookies["location"] !== undefined) setLocation(cookies["location"]);
+  });
+
   /**
    * Close locations list when click outside
    */
@@ -46,6 +58,7 @@ const PlacesAutocomplete = () => {
       // by setting the second parameter to "false"
       setValue(description, false);
       setLocation(description);
+      setCookie("location", description);
       clearSuggestions();
 
       // Get latitude and longitude via utility functions
@@ -53,7 +66,9 @@ const PlacesAutocomplete = () => {
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
           setLat(lat);
+          setCookie("lat", lat);
           setLong(lng);
+          setCookie("long", lng);
         })
         .catch((error) => {
           console.log("😱 Error: ", error);

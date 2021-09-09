@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import "./App.css";
 
 import { ISession } from "./models/OpenWeatherModel";
@@ -9,12 +10,19 @@ import PlacesAutocomplete from "./components/PlacesAutocomplete";
 import LocationContext from "./models/LocationContext";
 
 const App = () => {
+  const [cookies, setCookie] = useCookies(["minWindSpeed"]);
   const [lat, setLat] = useState<number>(0);
   const [long, setLong] = useState<number>(0);
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number | string>(12);
   const [nextSession, setNextSession] = useState<ISession[]>();
   const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
+
+  // useEffect(() => {
+  //   if (cookies["minWindSpeed"] !== undefined)
+  //     setMinWindSpeed(cookies["minWindSpeed"]);
+  //   console.log(cookies);
+  // }, [cookies]);
 
   /**
    * Shared states between Google AutoComplete and Weather API
@@ -53,6 +61,7 @@ const App = () => {
     } catch (error) {
       console.log("😱 Error: ", error);
     }
+    setCookie("minWindSpeed", minWindSpeed);
   };
 
   /**
