@@ -54,7 +54,6 @@ const PlacesAutocomplete = () => {
         .then(({ lat, lng }) => {
           setLat(lat);
           setLong(lng);
-          console.log("📍 Coordinates: ", { lat, lng });
         })
         .catch((error) => {
           console.log("😱 Error: ", error);

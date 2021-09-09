@@ -50,8 +50,8 @@ const App = () => {
       const res = await fetch(fetchURL);
       const data = await res.json();
       filterWindSpeed(data.list);
-    } catch (err) {
-      console.log("Error: ", err);
+    } catch (error) {
+      console.log("😱 Error: ", error);
     }
   };
 
