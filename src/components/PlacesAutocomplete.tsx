@@ -23,7 +23,10 @@ const PlacesAutocomplete = () => {
     debounce: 300,
   });
 
-  const { lat, long, location } = useContext(LocationContext);
+  /**
+   * Set states into context
+   */
+  const { setLat, setLong, setLocation } = useContext(LocationContext);
 
   /**
    * Close locations list when click outside
@@ -42,12 +45,15 @@ const PlacesAutocomplete = () => {
       // When user selects a place, we can replace the keyword without request data from API
       // by setting the second parameter to "false"
       setValue(description, false);
+      setLocation(description);
       clearSuggestions();
 
       // Get latitude and longitude via utility functions
       getGeocode({ address: description })
         .then((results) => getLatLng(results[0]))
         .then(({ lat, lng }) => {
+          setLat(lat);
+          setLong(lng);
           console.log("📍 Coordinates: ", { lat, lng });
         })
         .catch((error) => {
@@ -55,6 +61,9 @@ const PlacesAutocomplete = () => {
         });
     };
 
+  /**
+   * List of Google Maps suggestions
+   */
   const renderSuggestions = () =>
     data.map((suggestion) => {
       const {

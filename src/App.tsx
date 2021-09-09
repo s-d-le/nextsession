@@ -32,7 +32,7 @@ const App = () => {
   );
 
   /**
-   * Get and convert windspeed from API
+   * Filter and convert windspeed from API
    */
   const filterWindSpeed = (list: any[]) => {
     if (typeof minWindSpeed !== "string") {
@@ -49,7 +49,6 @@ const App = () => {
     try {
       const res = await fetch(fetchURL);
       const data = await res.json();
-      setLocation(`${data.city.name}, ${data.city.country}`);
       filterWindSpeed(data.list);
     } catch (err) {
       console.log("Error: ", err);
@@ -70,9 +69,9 @@ const App = () => {
     <LocationContext.Provider value={context}>
       <div className="App">
         <PlacesAutocomplete />
-        <h3>Latitude is: {lat}</h3>
-        <h3>Longitude is: {long}</h3>
-        <h3>Location is: {location}</h3>
+        <h3>Latitude: {lat}</h3>
+        <h3>Longitude: {long}</h3>
+        <h3>Location: {location}</h3>
         <h3>
           <input
             type="number"
