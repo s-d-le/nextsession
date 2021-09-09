@@ -18,11 +18,13 @@ const App = () => {
   const [nextSession, setNextSession] = useState<ISession[]>();
   const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
-  // useEffect(() => {
-  //   if (cookies["minWindSpeed"] !== undefined)
-  //     setMinWindSpeed(cookies["minWindSpeed"]);
-  //   console.log(cookies);
-  // }, [cookies]);
+  /**
+   * Making sure windspeed is number
+   */
+  useEffect(() => {
+    if (cookies["minWindSpeed"] !== undefined)
+      setMinWindSpeed(Number(cookies["minWindSpeed"]));
+  }, [cookies]);
 
   /**
    * Shared states between Google AutoComplete and Weather API
@@ -47,6 +49,8 @@ const App = () => {
       setNextSession(
         list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS)
       );
+    } else {
+      console.log("Get us some windspeed");
     }
   };
 
