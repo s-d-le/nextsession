@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+
 import useOnclickOutside from "react-cool-onclickoutside";
+
+import LocationContext from "../models/LocationContext";
 
 const PlacesAutocomplete = () => {
   const {
@@ -19,14 +22,17 @@ const PlacesAutocomplete = () => {
     },
     debounce: 300,
   });
+
+  const { lat, long, location } = useContext(LocationContext);
+
+  /**
+   * Close locations list when click outside
+   */
   const ref = useOnclickOutside(() => {
-    // When user clicks outside of the component, we can dismiss
-    // the searched suggestions by calling this method
     clearSuggestions();
   });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Update the keyword of the input element
     setValue(e.target.value);
   };
 

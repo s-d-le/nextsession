@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./App.css";
 
 import { ISession } from "./models/OpenWeatherModel";
@@ -6,21 +6,35 @@ import { KNOT_TO_MS } from "./helpers/Conversion";
 import Sessions from "./components/Sessions";
 import PlacesAutocomplete from "./components/PlacesAutocomplete";
 
-const LAT = 52.11;
-const LONG = 4.265;
+import LocationContext from "./models/LocationContext";
 
 const App = () => {
-  const [lat, setLat] = useState<number>();
-  const [long, setLong] = useState<number>();
+  const [lat, setLat] = useState<number>(0);
+  const [long, setLong] = useState<number>(0);
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number | string>(12);
   const [nextSession, setNextSession] = useState<ISession[]>();
   const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
+  /**
+   * Shared states between Google AutoComplete and Weather API
+   */
+  const context = useMemo(
+    () => ({
+      lat,
+      setLat,
+      long,
+      setLong,
+      location,
+      setLocation,
+    }),
+    [lat, long, location]
+  );
+
+  /**
+   * Get and convert windspeed from API
+   */
   const filterWindSpeed = (list: any[]) => {
-    /**
-     * HTML input returns empty string
-     */
     if (typeof minWindSpeed !== "string") {
       setNextSession(
         list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS)
@@ -28,6 +42,9 @@ const App = () => {
     }
   };
 
+  /**
+   * Call Weather API
+   */
   const getWeather = async () => {
     try {
       const res = await fetch(fetchURL);
@@ -38,11 +55,6 @@ const App = () => {
       console.log("Error: ", err);
     }
   };
-
-  useEffect(() => {
-    setLat(LAT);
-    setLong(LONG);
-  }, []);
 
   /**
    * Force number input only on windspeed
@@ -55,30 +67,32 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <PlacesAutocomplete></PlacesAutocomplete>
-      <h3>Latitude is: {lat}</h3>
-      <h3>Longitude is: {long}</h3>
-      <h3>Location is: {location}</h3>
-      <h3>
-        <input
-          type="number"
-          name="windspeed"
-          placeholder="Minimum Wind Speed"
-          value={minWindSpeed}
-          onChange={onInputWindSpeed}
-        />{" "}
-        Knots
-      </h3>
-      <button
-        onClick={() => {
-          getWeather();
-        }}
-      >
-        When is my next session?
-      </button>
-      {nextSession! && <Sessions list={nextSession} />}
-    </div>
+    <LocationContext.Provider value={context}>
+      <div className="App">
+        <PlacesAutocomplete />
+        <h3>Latitude is: {lat}</h3>
+        <h3>Longitude is: {long}</h3>
+        <h3>Location is: {location}</h3>
+        <h3>
+          <input
+            type="number"
+            name="windspeed"
+            placeholder="Minimum Wind Speed"
+            value={minWindSpeed}
+            onChange={onInputWindSpeed}
+          />{" "}
+          Knots
+        </h3>
+        <button
+          onClick={() => {
+            getWeather();
+          }}
+        >
+          When is my next session?
+        </button>
+        {nextSession! && <Sessions list={nextSession} />}
+      </div>
+    </LocationContext.Provider>
   );
 };
 
