@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import "./App.css";
+import "./App.scss";
 
 import { ISession } from "./models/OpenWeatherModel";
 import { KNOT_TO_MS } from "./helpers/Conversion";
@@ -10,7 +10,7 @@ import PlacesAutocomplete from "./components/PlacesAutocomplete";
 import LocationContext from "./models/LocationContext";
 
 const App = () => {
-  const [cookies, setCookie] = useCookies(["minWindSpeed"]);
+  const [cookies, setCookie] = useCookies(["minWindSpeed", "location"]);
   const [lat, setLat] = useState<number>(0);
   const [long, setLong] = useState<number>(0);
   const [location, setLocation] = useState<string>("");
@@ -19,7 +19,9 @@ const App = () => {
   const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
   /**
-   * Making sure windspeed is number
+   * Setting windspeed from cooking
+   * Making sure it's a number
+   * TODO: Check if cookie is ready then call getWeather
    */
   useEffect(() => {
     if (cookies["minWindSpeed"] !== undefined)
@@ -81,20 +83,20 @@ const App = () => {
   return (
     <LocationContext.Provider value={context}>
       <div className="App">
-        <PlacesAutocomplete />
-        <h3>Latitude: {lat}</h3>
-        <h3>Longitude: {long}</h3>
-        <h3>Location: {location}</h3>
-        <h3>
+        <div className="place-wind-block">
+          <PlacesAutocomplete />
           <input
             type="number"
             name="windspeed"
             placeholder="Minimum Wind Speed"
             value={minWindSpeed}
             onChange={onInputWindSpeed}
-          />{" "}
-          Knots
-        </h3>
+            className="autocomplete-input windspeed"
+          />
+        </div>
+        <h3>Latitude: {lat}</h3>
+        <h3>Longitude: {long}</h3>
+        <h3>Location: {location}</h3>
         <button
           onClick={() => {
             getWeather();

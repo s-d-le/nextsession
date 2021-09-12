@@ -86,7 +86,11 @@ const PlacesAutocomplete = () => {
       } = suggestion;
 
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
+        <li
+          key={place_id}
+          onClick={handleSelect(suggestion)}
+          className="autocomplete-item"
+        >
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
       );
@@ -98,10 +102,13 @@ const PlacesAutocomplete = () => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="Where are you kitting?"
+        className="autocomplete-input"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {status === "OK" && <ul>{renderSuggestions()}</ul>}
+      {status === "OK" && (
+        <ul className="autocomplete-list">{renderSuggestions()}</ul>
+      )}
     </div>
   );
 };

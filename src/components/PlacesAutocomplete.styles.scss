@@ -1,0 +1,41 @@
+$border: 5px solid;
+$padding: 1rem 1.2rem;
+
+.autocomplete-input {
+  padding: $padding;
+  width: 15rem;
+  border: $border;
+  outline: none;
+  font-weight: bold;
+  line-height: 1.5;
+
+  &.windspeed {
+    border-left: none;
+    width: 2rem;
+    padding-right: 0;
+  }
+}
+
+.autocomplete-list {
+  position: absolute;
+  max-height: 60%;
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  border: $border;
+  border-top: none;
+  border-image: initial;
+  list-style-type: none;
+  text-align: left;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  width: 15rem;
+  padding: $padding;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: black;
+  }
+}
