@@ -82,7 +82,7 @@ const App = () => {
 
   return (
     <LocationContext.Provider value={context}>
-      <div className="App">
+      <div className="container">
         <div className="place-wind-block">
           <PlacesAutocomplete />
           <input
@@ -94,9 +94,7 @@ const App = () => {
           />
           <span className="input-unit">knots</span>
         </div>
-        <h3>Latitude: {lat}</h3>
-        <h3>Longitude: {long}</h3>
-        <h3>Location: {location}</h3>
+
         <button
           onClick={() => {
             getWeather();

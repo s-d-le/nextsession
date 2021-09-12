@@ -37,7 +37,11 @@ const PlacesAutocomplete = () => {
   useEffect(() => {
     if (cookies["lat"] !== undefined) setLat(cookies["lat"]);
     if (cookies["long"] !== undefined) setLong(cookies["long"]);
-    if (cookies["location"] !== undefined) setLocation(cookies["location"]);
+    if (cookies["location"] !== undefined) {
+      setLocation(cookies["location"]);
+      setValue(cookies["location"]);
+      clearSuggestions();
+    }
   });
 
   /**

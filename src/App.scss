@@ -1,4 +1,7 @@
-.App {
+$input-border: 5px solid;
+$input-padding: 1rem 1.2rem;
+
+.container {
   min-height: 100vh;
   padding: 30px;
   background-color: #fbc926;
@@ -10,15 +13,56 @@
   align-items: center;
 }
 
+.autocomplete-input {
+  padding: $input-padding;
+  width: 20rem;
+  border: $input-border;
+  outline: none;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+
+  &.windspeed {
+    border-left: none;
+    width: 5.5rem;
+    padding-right: 0;
+  }
+}
+
 .input-unit {
   margin-left: -4rem;
   margin-top: -0.2rem;
   font-style: italic;
 }
 
+.autocomplete-list {
+  position: absolute;
+  max-height: 60%;
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  border: $input-border;
+  border-top: none;
+  border-image: initial;
+  list-style-type: none;
+  text-align: left;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  width: 20rem;
+  padding: $input-padding;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: black;
+  }
+}
+
 .confirm-button {
-  padding: 1rem 1.2rem;
-  border: 5px solid black;
+  margin-top: 2rem;
+  padding: $input-padding;
+  border: $input-border black;
   background-color: black;
   color: white;
   font-weight: bold;
