@@ -7,4 +7,27 @@
 
 .place-wind-block {
   display: flex;
+  align-items: center;
+}
+
+.input-unit {
+  margin-left: -4rem;
+  margin-top: -0.2rem;
+  font-style: italic;
+}
+
+.confirm-button {
+  padding: 1rem 1.2rem;
+  border: 5px solid black;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+  transition: all 0.15s;
+
+  &:hover {
+    color: black;
+    background-color: transparent;
+  }
 }

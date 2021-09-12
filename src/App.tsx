@@ -88,11 +88,11 @@ const App = () => {
           <input
             type="number"
             name="windspeed"
-            placeholder="Minimum Wind Speed"
             value={minWindSpeed}
             onChange={onInputWindSpeed}
             className="autocomplete-input windspeed"
           />
+          <span className="input-unit">knots</span>
         </div>
         <h3>Latitude: {lat}</h3>
         <h3>Longitude: {long}</h3>
@@ -101,8 +101,9 @@ const App = () => {
           onClick={() => {
             getWeather();
           }}
+          className="confirm-button"
         >
-          When is my next session?
+          When is my next session
         </button>
         {nextSession! && <Sessions list={nextSession} />}
       </div>

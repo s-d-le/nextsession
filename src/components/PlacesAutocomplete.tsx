@@ -102,7 +102,7 @@ const PlacesAutocomplete = () => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you kitting?"
+        placeholder="Kite spot and minimum windspeed?"
         className="autocomplete-input"
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
