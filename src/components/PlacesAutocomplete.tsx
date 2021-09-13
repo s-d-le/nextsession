@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useCookies } from "react-cookie";
 
 import usePlacesAutocomplete, {
@@ -31,6 +31,8 @@ const PlacesAutocomplete = () => {
 
   const [cookies, setCookie] = useCookies(["lat", "long", "location"]);
 
+  const [listDisplay, setListDisplay] = useState<Boolean>(false);
+
   /**
    * Rehydrate the location with some good dough
    */
@@ -39,10 +41,17 @@ const PlacesAutocomplete = () => {
     if (cookies["long"] !== undefined) setLong(cookies["long"]);
     if (cookies["location"] !== undefined) {
       setLocation(cookies["location"]);
-      setValue(cookies["location"]);
-      clearSuggestions();
     }
   });
+
+  /**
+   * Display input with location from cookie
+   * Hide the suggestions before user types anything
+   */
+  useEffect(() => {
+    setValue(cookies["location"]);
+    setListDisplay(false);
+  }, [cookies, setValue]);
 
   /**
    * Close locations list when click outside
@@ -53,6 +62,7 @@ const PlacesAutocomplete = () => {
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+    setListDisplay(true);
   };
 
   const handleSelect =
@@ -111,7 +121,11 @@ const PlacesAutocomplete = () => {
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && (
-        <ul className="autocomplete-list">{renderSuggestions()}</ul>
+        <ul
+          className={`autocomplete-list ${listDisplay ? null : "display-none"}`}
+        >
+          {renderSuggestions()}
+        </ul>
       )}
     </div>
   );

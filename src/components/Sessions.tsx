@@ -23,16 +23,18 @@ const Sessions: FC<ISessionsList> = ({ list }) => {
     (sessionWeatherData, index: number) => {
       //The return value is an array with 2 value: [0]formated time and [1]weather data
       return (
-        <div key={index}>
-          <p>{sessionWeatherData[0]}</p>
-          <ul>
+        <div className="session-data" key={index}>
+          <span className="session-date">{sessionWeatherData[0]}</span>
+          <ul className="session-list">
             {sessionWeatherData[1].map(
               (weatherPoint: ISession, index: number) => {
                 return (
                   <li key={weatherPoint.dt}>
-                    <span>{unix(weatherPoint.dt).format("hh:mm")}</span>{" "}
-                    <span>
-                      {Math.round(weatherPoint.wind.speed * KNOT_TO_MS)} knots
+                    <span className="session-time">
+                      {unix(weatherPoint.dt).format("HH")}
+                    </span>
+                    <span className="session-windspeed">
+                      {Math.round(weatherPoint.wind.speed * KNOT_TO_MS)}
                     </span>
                   </li>
                 );

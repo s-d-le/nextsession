@@ -1,6 +1,10 @@
 $input-border: 5px solid;
 $input-padding: 1rem 1.2rem;
 
+.display-none {
+  display: none;
+}
+
 .container {
   min-height: 100vh;
   padding: 30px;
@@ -61,6 +65,7 @@ $input-padding: 1rem 1.2rem;
 
 .confirm-button {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   padding: $input-padding;
   border: $input-border black;
   background-color: black;
@@ -73,5 +78,31 @@ $input-padding: 1rem 1.2rem;
   &:hover {
     color: black;
     background-color: transparent;
+  }
+}
+
+.session-data {
+  border-left: 1px solid;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+}
+
+.session-date {
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 20pt;
+}
+
+.session-list {
+  list-style: none;
+  margin: 0;
+  margin-top: 1rem;
+  padding: 0;
+
+  li {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1rem;
   }
 }
