@@ -19,7 +19,7 @@ const App = () => {
   const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
   /**
-   * Setting windspeed from cooking
+   * Setting windspeed from cookies
    * Making sure it's a number
    * TODO: Check if cookie is ready then call getWeather
    */

@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Motivation
 
-Admit it! Weather apps are mundane. The same sun and clouds illustrations with big, bold, eccentric temprature digits. Try-hards (surfers, kiteboarders...) only care about their ultimate metrics: wind speed, wave height. We don't care if its below freezing (...) We go out when it's ON. This app's sole purpose is letting you know when it's ON!
+Admit it! Weather apps are mundane. The same sun and cloud illustrations with big, bold, eccentric temperature digits. Try-hards (surfers, kiteboarders...) only care about their ultimate metrics: wind speed, wave height. We don't care if its below freezing (...) We go out when it's ON. And this app's sole purpose is letting you know when it's ON!
 
 ## Installation
 
