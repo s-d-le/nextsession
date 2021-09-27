@@ -8,30 +8,34 @@ import { groupByDay } from "../helpers/GroupByDay";
 
 interface ISessionsList {
   list: Array<ISession>;
+  minWindSpeed: number;
 }
 
-const Sessions: FC<ISessionsList> = ({ list }) => {
+const Sessions: FC<ISessionsList> = ({ list, minWindSpeed = 0 }) => {
   /**
    * Prevent input from re-calling the list
    */
-  const groupedSessions = useMemo(() => groupByDay(list), [list]);
+  const groupedSessions = useMemo(
+    () => groupByDay(list, minWindSpeed),
+    [list, minWindSpeed]
+  );
 
   /**
    * Weather array destructuring
    */
-  const sessionsRenderer = [...groupedSessions].map(
+  const sessionsRenderer = groupedSessions.map(
     (sessionWeatherData, index: number) => {
       //The return value is an array with 2 value: [0]formated time and [1]weather data
       return (
         <div className="session-data" key={index}>
-          <span className="session-date">{sessionWeatherData[0]}</span>
+          <span className="session-date">{sessionWeatherData.key}</span>
           <ul className="session-list">
-            {sessionWeatherData[1].map(
+            {sessionWeatherData.values.map(
               (weatherPoint: ISession, index: number) => {
                 return (
                   <li key={weatherPoint.dt}>
                     <span className="session-time">
-                      {unix(weatherPoint.dt).format("HH")}
+                      {unix(weatherPoint.dt).format("HH:mm")}
                     </span>
                     <span className="session-windspeed">
                       {Math.round(weatherPoint.wind.speed * KNOT_TO_MS)}
@@ -48,7 +52,7 @@ const Sessions: FC<ISessionsList> = ({ list }) => {
 
   return (
     <div>
-      {groupedSessions?.size > 0 ? (
+      {groupedSessions?.length > 0 ? (
         <>{sessionsRenderer}</>
       ) : (
         <>

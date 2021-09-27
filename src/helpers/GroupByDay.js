@@ -3,20 +3,8 @@ import { unix } from "moment";
 /**
  * Group weather data points by date
  */
-export const groupByDay = (list) =>
-  list.reduce((entryMap, entry) => {
-    let selector = unix(entry.dt).format("dddd MM/DD");
-
-    return entryMap.set(selector, [...(entryMap.get(selector) || []), entry]);
-  }, new Map());
-
-export const groupByWindSpeed = (list, minWinSpeed) => {
-  const ds = (dt) =>
-    new Intl.DateTimeFormat("default", {
-      weekday: "long",
-      month: "2-digit",
-      day: "2-digit",
-    }).format(new Date(dt * 1000));
+export const groupByDay = (list, minWinSpeed) => {
+  const ds = (dt) => unix(dt).format("dddd MM/DD");
 
   const result = Array.from(
     list

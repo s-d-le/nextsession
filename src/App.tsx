@@ -9,14 +9,14 @@ import PlacesAutocomplete from "./components/PlacesAutocomplete";
 
 import LocationContext from "./models/LocationContext";
 
-import { groupByDay, groupByWindSpeed } from "./helpers/GroupByDay";
+import { groupByDay } from "./helpers/GroupByDay";
 
 const App = () => {
   const [cookies, setCookie] = useCookies(["minWindSpeed", "location"]);
   const [lat, setLat] = useState<number>(0);
   const [long, setLong] = useState<number>(0);
   const [location, setLocation] = useState<string>("");
-  const [minWindSpeed, setMinWindSpeed] = useState<number | string>(12);
+  const [minWindSpeed, setMinWindSpeed] = useState<number>(12);
   const [nextSession, setNextSession] = useState<ISession[]>();
   const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
@@ -50,7 +50,9 @@ const App = () => {
    */
   const filterWindSpeed = (list: any[]) => {
     if (typeof minWindSpeed !== "string") {
-      console.log(groupByWindSpeed(list, minWindSpeed / KNOT_TO_MS));
+      const filteredSessions = groupByDay(list, minWindSpeed / KNOT_TO_MS);
+
+      setNextSession(list);
     } else {
       console.log("Get us some windspeed");
     }
@@ -76,7 +78,7 @@ const App = () => {
   const onInputWindSpeed = (e: React.ChangeEvent<HTMLInputElement>) => {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
-      setMinWindSpeed(e.target.valueAsNumber ? e.target.valueAsNumber : "");
+      setMinWindSpeed(e.target.valueAsNumber ? e.target.valueAsNumber : NaN);
     }
   };
 
@@ -103,7 +105,12 @@ const App = () => {
         >
           When is my next session
         </button>
-        {nextSession! && <Sessions list={nextSession} />}
+        {nextSession! && (
+          <Sessions
+            list={nextSession}
+            minWindSpeed={minWindSpeed / KNOT_TO_MS}
+          />
+        )}
       </div>
     </LocationContext.Provider>
   );
