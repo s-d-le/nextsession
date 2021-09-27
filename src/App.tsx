@@ -50,11 +50,7 @@ const App = () => {
    */
   const filterWindSpeed = (list: any[]) => {
     if (typeof minWindSpeed !== "string") {
-      console.log(list);
-      console.log(groupByWindSpeed(list));
-      // setNextSession(
-      // list.filter((i) => i.wind.speed >= minWindSpeed / KNOT_TO_MS)
-      // );
+      console.log(groupByWindSpeed(list, minWindSpeed / KNOT_TO_MS));
     } else {
       console.log("Get us some windspeed");
     }
