@@ -30,7 +30,7 @@ const Sessions: FC<ISessionsList> = ({ list, minWindSpeed = 0 }) => {
         <div className="session-data" key={index}>
           <span className="session-date">{sessionWeatherData.key}</span>
           <ul className="session-list">
-            {sessionWeatherData.values.map(
+            {sessionWeatherData.value.map(
               (weatherPoint: ISession, index: number) => {
                 return (
                   <li key={weatherPoint.dt}>

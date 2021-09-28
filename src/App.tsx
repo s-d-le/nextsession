@@ -9,8 +9,6 @@ import PlacesAutocomplete from "./components/PlacesAutocomplete";
 
 import LocationContext from "./models/LocationContext";
 
-import { groupByDay } from "./helpers/GroupByDay";
-
 const App = () => {
   const [cookies, setCookie] = useCookies(["minWindSpeed", "location"]);
   const [lat, setLat] = useState<number>(0);
@@ -50,8 +48,6 @@ const App = () => {
    */
   const filterWindSpeed = (list: any[]) => {
     if (typeof minWindSpeed !== "string") {
-      const filteredSessions = groupByDay(list, minWindSpeed / KNOT_TO_MS);
-
       setNextSession(list);
     } else {
       console.log("Get us some windspeed");
@@ -78,7 +74,7 @@ const App = () => {
   const onInputWindSpeed = (e: React.ChangeEvent<HTMLInputElement>) => {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
-      setMinWindSpeed(e.target.valueAsNumber ? e.target.valueAsNumber : NaN);
+      setMinWindSpeed((e.target.valueAsNumber = e.target.valueAsNumber ?? 0));
     }
   };
 
