@@ -4,11 +4,15 @@ import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CookiesProvider } from "react-cookie";
+import client from "./apollo";
+import { ApolloProvider } from "@apollo/client";
 
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
-      <App />
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
     </CookiesProvider>
   </React.StrictMode>,
   document.getElementById("root")

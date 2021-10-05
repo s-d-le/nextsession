@@ -1,0 +1,13 @@
+{
+  "name": "hackernews-node",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.19.0"
+  },
+  "devDependencies": {}
+}

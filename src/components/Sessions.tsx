@@ -25,7 +25,6 @@ const Sessions: FC<ISessionsList> = ({ list, minWindSpeed = 0 }) => {
    */
   const sessionsRenderer = groupedSessions.map(
     (sessionWeatherData, index: number) => {
-      //The return value is an array with 2 value: [0]formated time and [1]weather data
       return (
         <div className="session-data" key={index}>
           <span className="session-date">{sessionWeatherData.key}</span>
