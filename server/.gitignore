@@ -5,3 +5,12 @@ node_modules
 .idea
 .vscode
 *.log
+
+# package directories
+jspm_packages
+
+# Webpack directories
+.webpack
+
+# Serverless directories
+.serverless

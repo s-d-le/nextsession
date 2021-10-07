@@ -1,62 +1,50 @@
+enum OutputSize {
+  compact
+  full
+}
+
+enum DataType {
+  json
+  csv
+}
+
 type Query {
-  info: String!
-  feed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed!
+  getWeatherData(fromCur: String!, toCur: String!): RealtimeExchangeRate
+  getFXDaily(
+    fromSymbol: String!
+    toSymbol: String!
+    outputSize: OutputSize
+    dataType: DataType
+  ): GetFXDailyPayload
 }
 
-type Feed {
-  id: ID!
-  links: [Link!]!
-  count: Int!
+type Meta {
+  information: String
+  fromSymbol: String
+  toSymbol: String
+  outputSize: String
+  lastRefreshed: String
+  timeZone: String
 }
 
-type Mutation {
-  post(url: String!, description: String!): Link!
-  signup(email: String!, password: String!, name: String!): AuthPayload
-  login(email: String!, password: String!): AuthPayload
-  vote(linkId: ID!): Vote
+type GetFXDailyPayload {
+  meta: Meta
+  rates: [DailyRates]
 }
 
-type Subscription {
-  newLink: Link
-  newVote: Vote
+type DailyRates {
+  x: String
+  y: [Float]
 }
 
-type AuthPayload {
-  token: String
-  user: User
+type RealtimeExchangeRate {
+  fromCurrencyCode: String
+  fromCurrencyName: String
+  toCurrencyCode: String
+  toCurrencyName: String
+  exchangeRate: String
+  lastRefreshed: String
+  timeZone: String
+  bidPrice: String
+  askPrice: String
 }
-
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  links: [Link!]!
-}
-
-type Link {
-  id: ID!
-  description: String!
-  url: String!
-  postedBy: User
-  votes: [Vote!]!
-  createdAt: DateTime!
-}
-
-type Vote {
-  id: ID!
-  link: Link!
-  user: User!
-}
-
-input LinkOrderByInput {
-  description: Sort
-  url: Sort
-  createdAt: Sort
-}
-
-enum Sort {
-  asc
-  desc
-}
-
-scalar DateTime

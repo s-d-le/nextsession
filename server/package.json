@@ -17,6 +17,7 @@
     "node-fetch": "^1.7.3"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
     "cors": "2.8.4",
     "env-cmd": "^5.0.0",
     "serverless-offline": "^6.8.0",

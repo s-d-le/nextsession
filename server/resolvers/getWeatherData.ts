@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-// type JSONResult = { [key: string]: object };
+type JSONResult = { [key: string]: object };
 
 const getWeatherData = async (parent, args, context, info) => {
   const { lat = 0, long = 0 } = args;
@@ -9,7 +9,7 @@ const getWeatherData = async (parent, args, context, info) => {
       method: "POST",
     });
     const json = await res.json();
-    const currencyObj = json[Object.keys(json)[0]];
+    const currencyObj: JSONResult = json[Object.keys(json)[0]];
     return Object.fromEntries(
       Object.entries(currencyObj).map(([key, value], i) => [
         key.replace(`${i + 1}. `, ""),
