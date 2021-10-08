@@ -25,3 +25,4 @@ yarn-error.log*
 
 /server/.webpack
 /server/node_modules
+/server/yarn.lock
