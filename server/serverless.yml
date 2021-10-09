@@ -3,18 +3,17 @@ service: serverless-graphql-rest
 frameworkVersion: "2"
 
 provider:
-  name: aws
-  runtime: nodejs6.10
-  stage: dev
-  region: us-east-1
+  name: "aws"
+  runtime: "nodejs12.x"
+  region: "eu-west-1"
 
 plugins:
   - serverless-offline
   - serverless-webpack
 
 custom:
-  serverless-offline:
-    port: 4000
+  webpack:
+    includeModules: true
   webpackIncludeModules: true
 
 functions:
@@ -28,3 +27,4 @@ functions:
       - http:
           path: graphql
           method: get
+          cors: true

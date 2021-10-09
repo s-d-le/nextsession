@@ -23,7 +23,7 @@ exports.graphqlHandler = async function graphqlHandler(
       context,
     }),
     playground: {
-      endpoint: "/playground",
+      endpoint: process.env.REACT_APP_GRAPHQL_ENDPOINT,
     },
   });
 
