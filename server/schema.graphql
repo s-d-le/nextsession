@@ -1,15 +1,20 @@
 type Query {
-  getWeatherData(fromCur: String!, toCur: String!): WeatherData
+  getWeatherData(lat: Float!, long: Float!): WeatherData
+}
+
+type Weather {
+  description: String
+}
+
+type Wind {
+  deg: Float
+  gust: Float
+  speed: Float
 }
 
 type WeatherData {
-  fromCurrencyCode: String
-  fromCurrencyName: String
-  toCurrencyCode: String
-  toCurrencyName: String
-  exchangeRate: String
-  lastRefreshed: String
-  timeZone: String
-  bidPrice: String
-  askPrice: String
+  dt: Int
+  dt_txt: String
+  weather: [Weather]
+  wind: Wind
 }
