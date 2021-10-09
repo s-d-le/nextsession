@@ -1,43 +1,8 @@
-enum OutputSize {
-  compact
-  full
-}
-
-enum DataType {
-  json
-  csv
-}
-
 type Query {
-  getWeatherData(fromCur: String!, toCur: String!): RealtimeExchangeRate
-  getFXDaily(
-    fromSymbol: String!
-    toSymbol: String!
-    outputSize: OutputSize
-    dataType: DataType
-  ): GetFXDailyPayload
+  getWeatherData(fromCur: String!, toCur: String!): WeatherData
 }
 
-type Meta {
-  information: String
-  fromSymbol: String
-  toSymbol: String
-  outputSize: String
-  lastRefreshed: String
-  timeZone: String
-}
-
-type GetFXDailyPayload {
-  meta: Meta
-  rates: [DailyRates]
-}
-
-type DailyRates {
-  x: String
-  y: [Float]
-}
-
-type RealtimeExchangeRate {
+type WeatherData {
   fromCurrencyCode: String
   fromCurrencyName: String
   toCurrencyCode: String
