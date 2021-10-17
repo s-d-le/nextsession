@@ -18,3 +18,9 @@ export interface ISession {
   weather: Array<IWeather>;
   wind: IWind;
 }
+
+export interface ICurrentWeather {
+  main: { temp: Number };
+  wind: IWind;
+  weather: Array<IWeather>;
+}

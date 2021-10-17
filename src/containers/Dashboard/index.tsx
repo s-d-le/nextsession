@@ -1,10 +1,14 @@
 import React, { FC, useState, useMemo, useEffect } from "react";
 import { useCookies } from "react-cookie";
 
-import { ISession, LocationContext } from "../../models";
+import { ISession, LocationContext, ICurrentWeather } from "../../models";
 
 import { KNOT_TO_MS } from "../../helpers/Conversion";
-import { Sessions, PlacesAutocomplete } from "../../components/";
+import {
+  Sessions,
+  PlacesAutocomplete,
+  CurrentWeather,
+} from "../../components/";
 
 type DashboardProps = {};
 
@@ -15,7 +19,9 @@ const Dashboard: FC<DashboardProps> = () => {
   const [location, setLocation] = useState<string>("");
   const [minWindSpeed, setMinWindSpeed] = useState<number>(12);
   const [nextSession, setNextSession] = useState<ISession[]>();
-  const fetchURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
+  const [currentWeather, setCurrentWeather] = useState<ICurrentWeather>();
+  const sessionsURL = `${process.env.REACT_APP_WEATHER_API_URL}/forecast/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
+  const currentWeatherURL = `${process.env.REACT_APP_WEATHER_API_URL}/weather/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_WEATHER_API_KEY}`;
 
   /**
    * Setting windspeed from cookies
@@ -58,12 +64,18 @@ const Dashboard: FC<DashboardProps> = () => {
    */
   const getWeather = async () => {
     try {
-      const res = await fetch(fetchURL);
-      const data = await res.json();
-      filterWindSpeed(data.list);
+      const current = await fetch(currentWeatherURL);
+      const currentData = await current.json();
+      const sesh = await fetch(sessionsURL);
+      const seshData = await sesh.json();
+
+      setCurrentWeather(currentData);
+      console.log(currentData);
+      filterWindSpeed(seshData.list);
     } catch (error) {
       console.log("😱 Error: ", error);
     }
+
     setCookie("minWindSpeed", minWindSpeed);
   };
 
@@ -100,6 +112,15 @@ const Dashboard: FC<DashboardProps> = () => {
         >
           When is my next session
         </button>
+
+        {currentWeather! && (
+          <CurrentWeather
+            wind={currentWeather.wind}
+            main={currentWeather.main}
+            weather={currentWeather.weather}
+          />
+        )}
+
         {nextSession! && (
           <Sessions
             list={nextSession}
